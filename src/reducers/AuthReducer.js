@@ -4,7 +4,9 @@ import {
     SET_PASSWORD,
     SET_REPEAT_PASSWORD,  
     SIGNUP_ERROR,
-    SIGNUP_SUCCESS
+    SIGNUP_SUCCESS,
+    LOGIN_ERROR,
+    LOGIN_SUCCESS
 
 } from '../actions/types';
 
@@ -13,7 +15,9 @@ const INITIAL_STATE = {
     email: 'ajaxel@gmail.com',
     password: '123456',
     repeatPassword: '123456',
-    errorSignUp: ''
+    errorSignUp: '',
+    errorLogIn: '',
+
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -24,6 +28,8 @@ export default (state = INITIAL_STATE, action) => {
         case SET_REPEAT_PASSWORD: return { ...state, repeatPassword: action.payload };
         case SIGNUP_ERROR: return { ...state, errorSignUp: action.payload };
         case SIGNUP_SUCCESS: return { ...state, nome: '', password: '', repeatPassword: '' };
+        case LOGIN_ERROR: return { ...state, errorLogIn: action.payload };
+
 
         default: break;
     }

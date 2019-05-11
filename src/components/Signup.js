@@ -101,7 +101,7 @@ class Signup extends Component {
                     </View>
 
                     <View style={{paddingLeft: '5%' }}>
-                        <Text style={{ color: '#ff0000', fontSize: 14 }}>{errorSignUp}</Text>
+                        <Text style={{ color: '#ff0000', fontSize: 10 }}>{errorSignUp}</Text>
                     </View>
 
                 </Content>
