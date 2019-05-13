@@ -1,4 +1,5 @@
 import api from '../services/api';
+import utils from '../Utils';
 
 import { Actions } from 'react-native-router-flux';
 import {
@@ -10,7 +11,9 @@ import {
     SIGNUP_SUCCESS,
     LOGIN_ERROR,
     LOGIN_SUCCESS,
-    CLICK_LOGIN
+    CLICK_LOGIN,
+    VALIDATE_EMAIL,
+    VALIDATE_PASSWORD
 
 } from './types';
 
@@ -89,7 +92,7 @@ export const logIn = ({ email, password }) => {
     return dispatch => {
 
         //disparando ação para o login em andamento
-        dispatch({type: CLICK_LOGIN, payload: true});
+        dispatch({ type: CLICK_LOGIN, payload: true });
 
         dispatch({ type: LOGIN_ERROR, payload: '' })
 
@@ -114,10 +117,32 @@ export const logIn = ({ email, password }) => {
 
         }).catch((e) => {
             dispatch({ type: LOGIN_ERROR, payload: e.response.data.error })
-        });
+        }, 10000);
 
     }
 
+}
+
+export const validateEmail = (email) => {
+    if (email.length <= 0)
+        return { type: VALIDATE_EMAIL, payload: '' }
+
+    else if (utils.validateEmail(email))
+        return { type: VALIDATE_EMAIL, payload: '' }
+
+    else
+        return { type: VALIDATE_EMAIL, payload: 'Email inválido' }
+}
+
+export const validatePassword = (password) => {
+    if (password.length <= 0)
+        return { type: VALIDATE_PASSWORD, payload: '' }
+
+    else if (password.length >= 1 && password.length < 6)
+        return { type: VALIDATE_PASSWORD, payload: 'A senha deve conter no mínimo seis caracteres' }
+
+    else
+        return { type: VALIDATE_PASSWORD, payload: '' }
 }
 
 

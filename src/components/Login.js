@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { View, TouchableOpacity, TouchableWithoutFeedback, ToastAndroid } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { TextField } from 'react-native-material-textfield';
 import { Actions } from 'react-native-router-flux';
@@ -11,7 +11,7 @@ import Toast from 'react-native-root-toast';
 import { connect } from 'react-redux';
 
 //actions
-import { setEmail, setPassword, logIn } from '../actions/AuthActions';
+import { setEmail, setPassword, logIn, validateEmail, validatePassword } from '../actions/AuthActions';
 
 
 import {
@@ -29,6 +29,7 @@ import {
     Left,
     Right,
     Footer,
+    Label
 } from "native-base";
 
 
@@ -44,8 +45,8 @@ class Login extends Component {
         if (this.props.tryLogin)
             return (
                 <View style={{ paddingTop: '10%', paddingLeft: '20%', paddingRight: '20%' }}>
-                    <Button bordered block style={{ borderColor: '#E07A2F', borderRadius: 24 }}>
-                        <Spinner size='small' color='#E07A2F' />
+                    <Button block style={{ backgroundColor: '#E07A2F', borderRadius: 24 }}>
+                        <Spinner size='small' color='white' />
                     </Button>
                 </View>
 
@@ -53,84 +54,99 @@ class Login extends Component {
         else
             return (
                 <View style={{ paddingTop: '10%', paddingLeft: '20%', paddingRight: '20%' }}>
-                    <Button bordered block style={{ borderColor: '#E07A2F', borderRadius: 24 }} onPress={() => this._logIn()}>
-                        <Text uppercase={false} style={{ color: '#E07A2F' }}>Entrar</Text>
+                    <Button block style={{ backgroundColor: '#E07A2F', borderRadius: 24 }} onPress={() => this._logIn()}>
+                        <Text uppercase={false} style={{ color: 'white' }}>Entrar</Text>
                     </Button>
                 </View>
 
             )
     };
 
-    _renderToast(message){
-        let toast = utils.renderToast(message);
-        toast;
+    _renderToast(message) {
+        // let toast = utils.renderToast(message);
+        // toast;
+        ToastAndroid.showWithGravityAndOffset(
+            message,
+            ToastAndroid.SHORT,
+            ToastAndroid.BOTTOM,
+            25,
+            50,
+        );
     }
 
     render() {
-        let { email, password, errorEmail, errorLogIn } = this.props;
+        let { email, password, errorEmail, errorLogIn, errorPassword } = this.props;
         return (
             <Container style={{ justifyContent: 'center' }}>
+                <Content>
+                    <View>
+                        <View style={{ paddingLeft: '5%', paddingRight: '5%' }}>
+                            <TextField
+                                label="Email"
+                                textColor='#555555'
+                                labelHeight={20}
+                                tintColor='#269cda'
+                                baseColor='#269cda'
+                                value={email}
+                                onChangeText={(email) => this.props.setEmail(email)}
+                                animationDuration={0.5}
+                                error={errorEmail}
+                                errorColor='#269cda'
+                                keyboardType='email-address'
+                                onBlur={() => this.props.validateEmail(email)}
+                            />
+                        </View>
 
-                <View>
-                    <View style={{ paddingLeft: '5%', paddingRight: '5%' }}>
-                        <TextField
-                            label="Email"
-                            textColor='#555555'
-                            labelHeight={20}
-                            tintColor='#269cda'
-                            baseColor='#269cda'
-                            value={email}
-                            onChangeText={(email) => this.props.setEmail(email)}
-                            animationDuration={0.5}
-                            error={errorEmail}
-                            keyboardType='email-address'
-                        />
+                        <View style={{ paddingLeft: '5%', paddingRight: '5%' }}>
+                            <TextField
+                                secureTextEntry={true}
+                                label="Senha"
+                                textColor='#555555'
+                                labelHeight={20}
+                                tintColor='#269cda'
+                                baseColor='#269cda'
+                                value={password}
+                                onChangeText={(password) => this.props.setPassword(password)}
+                                animationDuration={0.5}
+                                error={errorPassword}
+                                errorColor='#269cda'
+                                onBlur={() => this.props.validatePassword(password)}
+                            />
+
+
+                        </View>
+
                     </View>
 
-                    <View style={{ paddingLeft: '5%', paddingRight: '5%' }}>
-                        <TextField
-                            secureTextEntry={true}
-                            label="Senha"
-                            textColor='#555555'
-                            labelHeight={20}
-                            tintColor='#269cda'
-                            baseColor='#269cda'
-                            value={password}
-                            onChangeText={(password) => this.props.setPassword(password)}
-                        />
+
+                    {email && password && utils.validateEmail(email) && password.length >=6
+                        ? this._renderButton()
+                        : <View style={{ paddingTop: '10%', paddingLeft: '20%', paddingRight: '20%' }}>
+                            <Button disabled block style={{ backgroundColor: 'rgba(224,122,47,0.5)', borderRadius: 24 }}>
+                                <Text uppercase={false} style={{ color: 'white' }}>Entrar</Text>
+                            </Button>
+                        </View>
+                    }
 
 
-                    </View>
+                    <View style={{ paddingTop: '4%', paddingBottom: '5%', paddingLeft: '20%', paddingRight: '20%' }}>
 
-                </View>
-
-
-                {email && password && utils.validateEmail(email)
-                    ? this._renderButton()
-                    : <View style={{ paddingTop: '10%', paddingLeft: '20%', paddingRight: '20%' }}>
-                        <Button disabled bordered block style={{ borderColor: 'rgba(224,122,47,0.5)', borderRadius: 24 }}>
-                            <Text uppercase={false} style={{ color: 'rgba(224,122,47,0.5)' }}>Entrar</Text>
+                        <Button iconLeft block style={{ borderColor: '#269cda', borderRadius: 20 }}>
+                            <Icon name='facebook' color='white' size={20} />
+                            <Text uppercase={false} style={{ color: 'white' }}>Facebook</Text>
                         </Button>
                     </View>
-                }
+
+                    <View style={{ alignItems: 'center', paddingBottom: '5%' }}>
+                        <TouchableWithoutFeedback onPress={() => Actions.Signup()}>
+                            <Text style={{ fontSize: 12, color: '#555555' }}>Ainda não tem cadastro?<Text style={{ color: '#269cda', fontSize: 12, fontWeight: 'bold' }}> Cadastre-se </Text></Text>
+                        </TouchableWithoutFeedback>
+                    </View>
+
+                    {errorLogIn.length > 0 ? this._renderToast(errorLogIn) : null}
 
 
-                <View style={{ paddingTop: '4%', paddingBottom: '5%', paddingLeft: '20%', paddingRight: '20%' }}>
-
-                    <Button iconLeft block style={{ borderColor: '#269cda', borderRadius: 20 }}>
-                        <Icon name='facebook' color='white' size={20} />
-                        <Text uppercase={false} style={{ color: 'white' }}>Facebook</Text>
-                    </Button>
-                </View>
-
-                <View style={{ alignItems: 'center', paddingBottom: '5%' }}>
-                    <TouchableWithoutFeedback onPress={() => Actions.Signup()}>
-                        <Text style={{ fontSize: 12 }}>Ainda não tem cadastro?<Text style={{ color: '#269cda', fontSize: 12, fontWeight: 'bold' }}> Cadastre-se </Text></Text>
-                    </TouchableWithoutFeedback>
-                </View>
-
-                {errorLogIn.length > 0 ? this._renderToast(errorLogIn) : null}
-
+                </Content>
 
             </Container>
         );
@@ -141,8 +157,9 @@ const mapStateToProps = state => ({
     email: state.AuthReducer.email,
     password: state.AuthReducer.password,
     errorEmail: state.AuthReducer.errorEmail,
+    errorPassword: state.AuthReducer.errorPassword,
     errorLogIn: state.AuthReducer.errorLogIn,
     tryLogin: state.AuthReducer.tryLogin
 });
 
-export default connect(mapStateToProps, { setEmail, setPassword, logIn })(Login);
+export default connect(mapStateToProps, { setEmail, setPassword, logIn, validateEmail, validatePassword })(Login);
