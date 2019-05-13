@@ -9,7 +9,8 @@ import {
     SIGNUP_ERROR,
     SIGNUP_SUCCESS,
     LOGIN_ERROR,
-    LOGIN_SUCCESS
+    LOGIN_SUCCESS,
+    CLICK_LOGIN
 
 } from './types';
 
@@ -46,11 +47,11 @@ export const setRepeatPassword = (repeatPassword) => {
     }
 }
 
-
 export const signUp = ({ name, email, password, repeatPassword }) => {
 
     if (password === repeatPassword) {
         return dispatch => {
+
             api.post('/signUp', {
 
                 _ApplicationId: 'Ascvd8fs91Scj4HjF7Sk93sCw2eDfggDE',
@@ -84,7 +85,15 @@ export const signUp = ({ name, email, password, repeatPassword }) => {
 
 export const logIn = ({ email, password }) => {
 
+
     return dispatch => {
+
+        //disparando ação para o login em andamento
+        dispatch({type: CLICK_LOGIN, payload: true});
+
+        dispatch({ type: LOGIN_ERROR, payload: '' })
+
+
         api.post('/logIn', {
 
             _ApplicationId: "Ascvd8fs91Scj4HjF7Sk93sCw2eDfggDE",
@@ -100,7 +109,7 @@ export const logIn = ({ email, password }) => {
             //     ['@CoachZac:configAnalyze', JSON.stringify({ hasChangeAnalyze: true })]
             // ]);
 
-            dispatch({ type: LOGIN_SUCCESS });
+            //dispatch({ type: LOGIN_SUCCESS });
             Actions.reset("Home");
 
         }).catch((e) => {

@@ -28,18 +28,25 @@ const Home = props => {
 
     return (
         <Container style={{ justifyContent: 'center', alignItems: 'center' }}>
-         
-            <Icon name="home" size={100} color="#269cda"/>
-         <View style={{padding: '5%'}}>
-            <Text style={{color: '#269cda', fontSize: 24}}> Bem Vindo!</Text>
-         </View>
+
+            <Icon name="home" size={100} color="#269cda" />
+            <View style={{ padding: '5%' }}>
+                <Text style={{ color: '#269cda', fontSize: 24 }}> Bem Vindo!</Text>
+            </View>
 
         </Container>
     );
 }
 
 const mapStateToProps = state => ({
-   
+
 });
 
 export default connect(mapStateToProps, {})(Home);
+
+/* <ImageBackground
+            source={require("../../assets/background.jpg")}
+            imageStyle={{resizeMode: 'stretch'}}
+            style={{flex: 1}}
+        >
+        </ImageBackground> */
