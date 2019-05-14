@@ -1,25 +1,24 @@
-import Toast from 'react-native-root-toast';
+import { Platform } from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 
 let utils = {
     validateEmail(email) {
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(email);
     },
-    renderToast(message) {
-
-        // Add a Toast on screen.
-        let toast = Toast.show(message, {
-            duration: 1000,
-            position: Toast.positions.BOTTOM,
-            shadow: true,
-            animation: true,
-            hideOnPress: true,
-            delay: 0
-        });
-
-        return toast;
-
+    getDeviceInfo(){
+        return {
+            platform: Platform.OS,
+            version: DeviceInfo.getSystemVersion(),
+            manufacturer: DeviceInfo.getManufacturer(),
+            model: DeviceInfo.getModel(),
+            language: DeviceInfo.getDeviceLocale(),
+            appVersion: DeviceInfo.getVersion(),
+        }
     }
+    
+
+    
 }
 
 module.exports = utils;

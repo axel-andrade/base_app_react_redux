@@ -104,7 +104,8 @@ export const logIn = ({ email, password }) => {
 
                 _ApplicationId: "Ascvd8fs91Scj4HjF7Sk93sCw2eDfggDE",
                 login: email,
-                password: password
+                password: password,
+                deviceInfo: utils.getDeviceInfo()
 
             }).then((res) => {
                 // const user = res.data.result;

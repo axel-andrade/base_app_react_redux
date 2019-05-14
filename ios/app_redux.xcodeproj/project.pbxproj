@@ -74,6 +74,8 @@
 		CEE6E768665A45E3961D31B5 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0524F2AE680E48DB8939DFA7 /* Octicons.ttf */; };
 		9EA277FC26474F118226CA87 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5691E675781643CFA955727A /* SimpleLineIcons.ttf */; };
 		69FB9659125C4290BAA2A077 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 64E81BAB24614008909CC451 /* Zocial.ttf */; };
+		26F610A9806143E9828D548C /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 54E3C16A77A64B00B9383989 /* libRNDeviceInfo.a */; };
+		4249989393574721BDE75B4C /* libRNDeviceInfo-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B62BFB77EE2E43038A40E8FD /* libRNDeviceInfo-tvOS.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -417,6 +419,9 @@
 		0524F2AE680E48DB8939DFA7 /* Octicons.ttf */ = {isa = PBXFileReference; name = "Octicons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		5691E675781643CFA955727A /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		64E81BAB24614008909CC451 /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2A44DFA96F69447C87C43E38 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; name = "RNDeviceInfo.xcodeproj"; path = "../node_modules/react-native-device-info/ios/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		54E3C16A77A64B00B9383989 /* libRNDeviceInfo.a */ = {isa = PBXFileReference; name = "libRNDeviceInfo.a"; path = "libRNDeviceInfo.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		B62BFB77EE2E43038A40E8FD /* libRNDeviceInfo-tvOS.a */ = {isa = PBXFileReference; name = "libRNDeviceInfo-tvOS.a"; path = "libRNDeviceInfo-tvOS.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -446,6 +451,7 @@
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				0056B0FF3AF2419FB65CAA3C /* libRNVectorIcons.a in Frameworks */,
+				26F610A9806143E9828D548C /* libRNDeviceInfo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -463,6 +469,7 @@
 				2D02E4C71E0B4AEC006451C7 /* libRCTText-tvOS.a in Frameworks */,
 				2D02E4C81E0B4AEC006451C7 /* libRCTWebSocket-tvOS.a in Frameworks */,
 				876CFE727317467BB5C18A41 /* libRNVectorIcons-tvOS.a in Frameworks */,
+				4249989393574721BDE75B4C /* libRNDeviceInfo-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -637,6 +644,7 @@
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				D9C60429A8F34CD5A4280A01 /* RNVectorIcons.xcodeproj */,
+				2A44DFA96F69447C87C43E38 /* RNDeviceInfo.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1341,10 +1349,13 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\react-native-device-info\ios\RNDeviceInfo",
 				);
 			};
 			name = Debug;
@@ -1368,10 +1379,13 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\react-native-device-info\ios\RNDeviceInfo",
 				);
 			};
 			name = Release;
@@ -1395,6 +1409,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\react-native-device-info\ios\RNDeviceInfo",
 				);
 			};
 			name = Debug;
@@ -1417,6 +1432,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\react-native-device-info\ios\RNDeviceInfo",
 				);
 			};
 			name = Release;
@@ -1448,10 +1464,13 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\react-native-device-info\ios\RNDeviceInfo",
 				);
 			};
 			name = Debug;
@@ -1483,10 +1502,13 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\react-native-device-info\ios\RNDeviceInfo",
 				);
 			};
 			name = Release;
@@ -1517,10 +1539,13 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\react-native-device-info\ios\RNDeviceInfo",
 				);
 			};
 			name = Debug;
@@ -1551,10 +1576,13 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)\..\node_modules\react-native-device-info\ios\RNDeviceInfo",
 				);
 			};
 			name = Release;
