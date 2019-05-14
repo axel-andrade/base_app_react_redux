@@ -11,7 +11,8 @@ import {
     LOGIN_SUCCESS,
     CLICK_LOGIN,
     VALIDATE_EMAIL,
-    VALIDATE_PASSWORD
+    VALIDATE_PASSWORD,
+    HIDE_PASSWORD
 
 } from '../actions/types';
 
@@ -24,7 +25,8 @@ const INITIAL_STATE = {
     errorLogIn: '',
     tryLogin: false,
     errorEmail: '',
-    errorPassword: ''
+    errorPassword: '', 
+    hidePassword: true
 
 };
 
@@ -41,6 +43,8 @@ export default (state = INITIAL_STATE, action) => {
         case CLICK_LOGIN: return { ...state, tryLogin: action.payload }
         case VALIDATE_EMAIL: return { ...state, errorEmail: action.payload }
         case VALIDATE_PASSWORD: return { ...state, errorPassword: action.payload }
+        case HIDE_PASSWORD: return { ...state, hidePassword: action.payload }
+
 
         default: break;
     }

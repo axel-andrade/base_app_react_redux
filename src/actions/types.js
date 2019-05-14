@@ -9,5 +9,7 @@ export const LOGIN_ERROR = "LOGIN_ERROR";
 export const CLICK_LOGIN = "CLICK_LOGIN";
 export const VALIDATE_EMAIL = 'VALIDATE_EMAIL';
 export const VALIDATE_PASSWORD = 'VALIDATE_PASSWORD';
+export const HIDE_PASSWORD = 'HIDE_PASSWORD';
+
 
 

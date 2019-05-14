@@ -13,7 +13,8 @@ import {
     LOGIN_SUCCESS,
     CLICK_LOGIN,
     VALIDATE_EMAIL,
-    VALIDATE_PASSWORD
+    VALIDATE_PASSWORD,
+    HIDE_PASSWORD
 
 } from './types';
 
@@ -91,33 +92,47 @@ export const logIn = ({ email, password }) => {
 
     return dispatch => {
 
-        //disparando ação para o login em andamento
-        dispatch({ type: CLICK_LOGIN, payload: true });
 
-        dispatch({ type: LOGIN_ERROR, payload: '' })
+        //verificando se os campos estão em branco 
+        if (email.length > 0 && password.length >=6) {
+            //disparando ação para o login em andamento
+            dispatch({ type: CLICK_LOGIN, payload: true });
+            dispatch({ type: LOGIN_ERROR, payload: '' })
 
 
-        api.post('/logIn', {
+            api.post('/logIn', {
 
-            _ApplicationId: "Ascvd8fs91Scj4HjF7Sk93sCw2eDfggDE",
-            login: email,
-            password: password
+                _ApplicationId: "Ascvd8fs91Scj4HjF7Sk93sCw2eDfggDE",
+                login: email,
+                password: password
 
-        }).then((res) => {
-            // const user = res.data.result;
-            // AsyncStorage.multiSet([
-            //     ['@CoachZac:sessionToken', JSON.stringify(user.sessionToken)],
-            //     ['@CoachZac:user', JSON.stringify(user)],
-            //     ['@CoachZac:configPlayer', JSON.stringify({ hasChangePlayer: true })],
-            //     ['@CoachZac:configAnalyze', JSON.stringify({ hasChangeAnalyze: true })]
-            // ]);
+            }).then((res) => {
+                // const user = res.data.result;
+                // AsyncStorage.multiSet([
+                //     ['@CoachZac:sessionToken', JSON.stringify(user.sessionToken)],
+                //     ['@CoachZac:user', JSON.stringify(user)],
+                //     ['@CoachZac:configPlayer', JSON.stringify({ hasChangePlayer: true })],
+                //     ['@CoachZac:configAnalyze', JSON.stringify({ hasChangeAnalyze: true })]
+                // ]);
 
-            //dispatch({ type: LOGIN_SUCCESS });
-            Actions.reset("Home");
+                //dispatch({ type: LOGIN_SUCCESS });
+                Actions.reset("Home");
 
-        }).catch((e) => {
-            dispatch({ type: LOGIN_ERROR, payload: e.response.data.error })
-        }, 10000);
+            }).catch((e) => {
+                dispatch({ type: LOGIN_ERROR, payload: e.response.data.error })
+            }, 10000);
+
+        }
+        else {
+            if (email === "")
+                dispatch({ type: VALIDATE_EMAIL, payload: "O campo email é obrigatório" });
+
+            if (password === "")
+                dispatch({ type: VALIDATE_PASSWORD, payload: "O campo senha é obrigatório" });
+            
+            if (password === "")
+                dispatch({ type: VALIDATE_PASSWORD, payload: "O campo senha é obrigatório" });
+        }
 
     }
 
@@ -144,6 +159,12 @@ export const validatePassword = (password) => {
     else
         return { type: VALIDATE_PASSWORD, payload: '' }
 }
+
+
+export const showPassword = (hidePassword) => {
+    return { type: HIDE_PASSWORD, payload: hidePassword }
+}
+
 
 
 

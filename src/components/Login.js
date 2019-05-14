@@ -11,7 +11,7 @@ import Toast from 'react-native-root-toast';
 import { connect } from 'react-redux';
 
 //actions
-import { setEmail, setPassword, logIn, validateEmail, validatePassword } from '../actions/AuthActions';
+import { setEmail, setPassword, logIn, validateEmail, validatePassword, showPassword } from '../actions/AuthActions';
 
 
 import {
@@ -44,8 +44,8 @@ class Login extends Component {
 
         if (this.props.tryLogin)
             return (
-                <View style={{ paddingTop: '10%', paddingLeft: '20%', paddingRight: '20%' }}>
-                    <Button block style={{ backgroundColor: '#E07A2F', borderRadius: 24 }}>
+                <View style={{ paddingTop: '10%', paddingLeft: '15%', paddingRight: '15%' }}>
+                    <Button block style={{ backgroundColor: '#E07A2F'}}>
                         <Spinner size='small' color='white' />
                     </Button>
                 </View>
@@ -53,8 +53,8 @@ class Login extends Component {
             );
         else
             return (
-                <View style={{ paddingTop: '10%', paddingLeft: '20%', paddingRight: '20%' }}>
-                    <Button block style={{ backgroundColor: '#E07A2F', borderRadius: 24 }} onPress={() => this._logIn()}>
+                <View style={{paddingTop: '10%', paddingLeft: '15%', paddingRight: '15%' }}>
+                    <Button block style={{ backgroundColor: '#E07A2F'}} onPress={() => this._logIn()}>
                         <Text uppercase={false} style={{ color: 'white' }}>Entrar</Text>
                     </Button>
                 </View>
@@ -75,71 +75,71 @@ class Login extends Component {
     }
 
     render() {
-        let { email, password, errorEmail, errorLogIn, errorPassword } = this.props;
+        console.log(this.props);
+        let { email, password, errorEmail, errorLogIn, errorPassword, hidePassword } = this.props;
         return (
             <Container style={{ justifyContent: 'center' }}>
                 <Content>
-                    <View>
+                    <View style={{ paddingTop: '10%' }}>
+
                         <View style={{ paddingLeft: '5%', paddingRight: '5%' }}>
-                            <TextField
-                                label="Email"
-                                textColor='#555555'
-                                labelHeight={20}
-                                tintColor='#269cda'
-                                baseColor='#269cda'
-                                value={email}
-                                onChangeText={(email) => this.props.setEmail(email)}
-                                animationDuration={0.5}
-                                error={errorEmail}
-                                errorColor='#269cda'
-                                keyboardType='email-address'
-                                onBlur={() => this.props.validateEmail(email)}
-                            />
+                            <Item style={{ borderColor: '#269cda' }}>
+                                <Icon active name='account' size={23} style={{ color: '#269cda' }} />
+                                <Input
+                                    placeholder='Email'
+                                    style={{ fontFamily: 'Exo Medium', color: '#555555' }}
+                                    placeholderTextColor='#269cda'
+                                    value={email}
+                                    onChangeText={(email) => this.props.setEmail(email)}
+                                    keyboardType='email-address'
+                                    onBlur={() => this.props.validateEmail(email)}
+                                />
+                            </Item>
+                            <Text style={{ fontSize: 12, color: '#269cda' }}>{errorEmail}</Text>
                         </View>
 
-                        <View style={{ paddingLeft: '5%', paddingRight: '5%' }}>
-                            <TextField
-                                secureTextEntry={true}
-                                label="Senha"
-                                textColor='#555555'
-                                labelHeight={20}
-                                tintColor='#269cda'
-                                baseColor='#269cda'
-                                value={password}
-                                onChangeText={(password) => this.props.setPassword(password)}
-                                animationDuration={0.5}
-                                error={errorPassword}
-                                errorColor='#269cda'
-                                onBlur={() => this.props.validatePassword(password)}
-                            />
 
-
+                        <View style={{ paddingLeft: '5%', paddingRight: '5%', paddingBottom: '3%' }}>
+                            <Item style={{ borderColor: '#269cda', paddingTop: 5 }}>
+                                <Icon active name='lock' size={23} style={{ color: '#269cda' }} />
+                                <Input
+                                    secureTextEntry={hidePassword}
+                                    placeholder='Senha'
+                                    style={{ fontFamily: 'Exo Medium', color: '#555555' }}
+                                    placeholderTextColor='#269cda'
+                                    value={password}
+                                    onChangeText={(password) => this.props.setPassword(password)}
+                                    onBlur={() => this.props.validatePassword(password)} />
+                                {hidePassword
+                                    ? <Icon active name='eye' size={23} style={{ color: '#269cda' }} onPress={() => this.props.showPassword(!hidePassword)} />
+                                    : <Icon active name='eye-off' size={23} style={{ color: '#269cda' }} onPress={() => this.props.showPassword(!hidePassword)} />
+                                }
+                            </Item>
+                            <Text style={{ fontSize: 12, color: '#269cda' }}>{errorPassword}</Text>
                         </View>
 
                     </View>
 
-
-                    {email && password && utils.validateEmail(email) && password.length >=6
-                        ? this._renderButton()
-                        : <View style={{ paddingTop: '10%', paddingLeft: '20%', paddingRight: '20%' }}>
-                            <Button disabled block style={{ backgroundColor: 'rgba(224,122,47,0.5)', borderRadius: 24 }}>
-                                <Text uppercase={false} style={{ color: 'white' }}>Entrar</Text>
-                            </Button>
-                        </View>
-                    }
+                    {this._renderButton()}
 
 
-                    <View style={{ paddingTop: '4%', paddingBottom: '5%', paddingLeft: '20%', paddingRight: '20%' }}>
+                    <View style={{ alignItems: 'center', padding: '3%' }}>
+                        <Text style={{ color: '#DCDCDC', fontSize: 10 }}> ──────────────── OU  ────────────────</Text>
+                    </View>
 
-                        <Button iconLeft block style={{ borderColor: '#269cda', borderRadius: 20 }}>
+                    <View style={{ paddingBottom: '5%', paddingLeft: '25%', paddingRight: '25%' }}>
+
+                        <Button iconLeft block style={{ backgroundColor: '#5371b1'}}>
                             <Icon name='facebook' color='white' size={20} />
                             <Text uppercase={false} style={{ color: 'white' }}>Facebook</Text>
                         </Button>
                     </View>
 
+
+
                     <View style={{ alignItems: 'center', paddingBottom: '5%' }}>
                         <TouchableWithoutFeedback onPress={() => Actions.Signup()}>
-                            <Text style={{ fontSize: 12, color: '#555555' }}>Ainda não tem cadastro?<Text style={{ color: '#269cda', fontSize: 12, fontWeight: 'bold' }}> Cadastre-se </Text></Text>
+                            <Text style={{ fontSize: 12, color: '#555555' }}>Ainda não tem cadastro?<Text style={{ color: '#269cda', fontSize: 14, fontWeight: 'bold' }}> Cadastre-se </Text></Text>
                         </TouchableWithoutFeedback>
                     </View>
 
@@ -159,7 +159,8 @@ const mapStateToProps = state => ({
     errorEmail: state.AuthReducer.errorEmail,
     errorPassword: state.AuthReducer.errorPassword,
     errorLogIn: state.AuthReducer.errorLogIn,
-    tryLogin: state.AuthReducer.tryLogin
+    tryLogin: state.AuthReducer.tryLogin,
+    hidePassword: state.AuthReducer.hidePassword
 });
 
-export default connect(mapStateToProps, { setEmail, setPassword, logIn, validateEmail, validatePassword })(Login);
+export default connect(mapStateToProps, { setEmail, setPassword, logIn, validateEmail, validatePassword, showPassword })(Login);
