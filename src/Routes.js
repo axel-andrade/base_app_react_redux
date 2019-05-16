@@ -7,10 +7,10 @@ import Home from './components/Home';
 
 
 export default props => (
-    <Router  hideNavBar={true}>
+    <Router hideNavBar={true}>
         <Stack key="root">
-            <Scene key="Login" component={Login} title="Login" hideNavBar={true} initial/>
-            <Scene key="Signup" component={Signup} title="Signup" hideNavBar={true}/>
+            <Scene key="Login" component={Login} title="Login" hideNavBar={true} initial />
+            <Scene key="Signup" component={Signup} title="Signup" hideNavBar={true} />
             <Scene key="Home" component={Home} title="Home" hideNavBar={true} />
 
         </Stack>

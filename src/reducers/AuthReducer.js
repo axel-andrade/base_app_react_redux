@@ -5,14 +5,18 @@ import {
     SET_EMAIL,
     SET_PASSWORD,
     SET_REPEAT_PASSWORD,
-    SIGNUP_ERROR,
+    SET_PHONE,
+    SET_BIRTHDAY,
     SIGNUP_SUCCESS,
-    LOGIN_ERROR,
     LOGIN_SUCCESS,
     CLICK_LOGIN,
+    CLICK_SIGNUP,
     VALIDATE_EMAIL,
     VALIDATE_PASSWORD,
-    HIDE_PASSWORD
+    VALIDATE_REPEAT_PASSWORD,
+    VALIDATE_NAME,
+    HIDE_PASSWORD,
+    HIDE_REPEAT_PASSWORD
 
 } from '../actions/types';
 
@@ -21,30 +25,38 @@ const INITIAL_STATE = {
     email: '',
     password: '',
     repeatPassword: '',
-    errorSignUp: '',
-    errorLogIn: '',
     tryLogin: false,
+    trySignup: false,
     errorEmail: '',
-    errorPassword: '', 
-    hidePassword: true
+    errorPassword: '',
+    errorRepeatPassword: '',
+    errorName: '',
+    hidePassword: true,
+    hideRepeatPassword: true,
+    hideResetPassword: true,
+    phone: '',
+    birthday: ''
 
 };
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case SET_NAME: return { ...state, name: action.payload, errorSignUp: '' };
-        case SET_EMAIL: return { ...state, email: action.payload, errorLogIn: '', errorSignUp: '', errorEmail: '' };
-        case SET_PASSWORD: return { ...state, password: action.payload, errorLogIn: '', errorSignUp: '', errorPassword: '' };
-        case SET_REPEAT_PASSWORD: return { ...state, repeatPassword: action.payload };
-        case SIGNUP_ERROR: return { ...state, errorSignUp: action.payload };
-        case SIGNUP_SUCCESS: return { ...state, nome: '', password: '', repeatPassword: '' };
-        case LOGIN_ERROR: return { ...state, errorLogIn: action.payload, tryLogin: action.payload.length > 0 ? false : true };
+        case SET_NAME: return { ...state, name: action.payload, errorName: '' };
+        case SET_EMAIL: return { ...state, email: action.payload, errorEmail: '' };
+        case SET_PASSWORD: return { ...state, password: action.payload, errorPassword: '' };
+        case SET_REPEAT_PASSWORD: return { ...state, repeatPassword: action.payload, errorRepeatPassword: '' };
+        case SET_PHONE: return { ...state, phone: action.payload };
+        case SET_BIRTHDAY: return { ...state, birthday: action.payload };
+        case SIGNUP_SUCCESS: return { ...state, nome: '', password: '', repeatPassword: '', trySignup: false };
         case LOGIN_SUCCESS: return { ...state, tryLogin: false };
         case CLICK_LOGIN: return { ...state, tryLogin: action.payload }
+        case CLICK_SIGNUP: return { ...state, trySignup: action.payload }
         case VALIDATE_EMAIL: return { ...state, errorEmail: action.payload }
         case VALIDATE_PASSWORD: return { ...state, errorPassword: action.payload }
+        case VALIDATE_REPEAT_PASSWORD: return { ...state, errorRepeatPassword: action.payload }
+        case VALIDATE_NAME: return { ...state, errorName: action.payload }
         case HIDE_PASSWORD: return { ...state, hidePassword: action.payload }
-
+        case HIDE_REPEAT_PASSWORD: return { ...state, hideRepeatPassword: action.payload }
 
         default: break;
     }

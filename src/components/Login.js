@@ -1,19 +1,13 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, TouchableWithoutFeedback, ToastAndroid } from 'react-native';
+import { View, TouchableOpacity, TouchableWithoutFeedback, ToastAndroid, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { TextField } from 'react-native-material-textfield';
 import { Actions } from 'react-native-router-flux';
-import { SocialIcon } from 'react-native-elements';
+import { Tooltip } from 'react-native-elements';
 import utils from '../Utils';
-import Toast from 'react-native-root-toast';
-
 //acesso aos reducers 
 import { connect } from 'react-redux';
-
 //actions
 import { setEmail, setPassword, logIn, validateEmail, validatePassword, showPassword } from '../actions/AuthActions';
-
-
 import {
     Container,
     Content,
@@ -44,8 +38,8 @@ class Login extends Component {
 
         if (this.props.tryLogin)
             return (
-                <View style={{ paddingTop: '10%', paddingLeft: '15%', paddingRight: '15%' }}>
-                    <Button block style={{ backgroundColor: '#E07A2F'}}>
+                <View style={{ paddingTop: '10%', paddingLeft: '5%', paddingRight: '5%' }}>
+                    <Button block style={{ backgroundColor: '#E07A2F' }}>
                         <Spinner size='small' color='white' />
                     </Button>
                 </View>
@@ -53,8 +47,8 @@ class Login extends Component {
             );
         else
             return (
-                <View style={{paddingTop: '10%', paddingLeft: '15%', paddingRight: '15%' }}>
-                    <Button block style={{ backgroundColor: '#E07A2F'}} onPress={() => this._logIn()}>
+                <View style={{ paddingTop: '10%', paddingLeft: '5%', paddingRight: '5%' }}>
+                    <Button block style={{ backgroundColor: '#E07A2F' }} onPress={() => this._logIn()}>
                         <Text uppercase={false} style={{ color: 'white' }}>Entrar</Text>
                     </Button>
                 </View>
@@ -62,26 +56,15 @@ class Login extends Component {
             )
     };
 
-    _renderToast(message) {
-        // let toast = utils.renderToast(message);
-        // toast;
-        ToastAndroid.showWithGravityAndOffset(
-            message,
-            ToastAndroid.SHORT,
-            ToastAndroid.BOTTOM,
-            25,
-            50,
-        );
-    }
-
     render() {
         console.log(this.props);
-        let { email, password, errorEmail, errorLogIn, errorPassword, hidePassword } = this.props;
+        console.log("connection", utils.verifyConnection());
+
+        let { email, password, errorEmail, errorPassword, hidePassword } = this.props;
         return (
             <Container style={{ justifyContent: 'center' }}>
                 <Content>
                     <View style={{ paddingTop: '10%' }}>
-
                         <View style={{ paddingLeft: '5%', paddingRight: '5%' }}>
                             <Item style={{ borderColor: '#269cda' }}>
                                 <Icon active name='account' size={23} style={{ color: '#269cda' }} />
@@ -94,12 +77,10 @@ class Login extends Component {
                                     keyboardType='email-address'
                                     onBlur={() => this.props.validateEmail(email)}
                                 />
+                                {errorEmail ? utils.renderTooltip(errorEmail) : null}
                             </Item>
-                            <Text style={{ fontSize: 12, color: '#269cda' }}>{errorEmail}</Text>
                         </View>
-
-
-                        <View style={{ paddingLeft: '5%', paddingRight: '5%', paddingBottom: '3%' }}>
+                        <View style={{ paddingLeft: '5%', paddingRight: '5%' }}>
                             <Item style={{ borderColor: '#269cda', paddingTop: 5 }}>
                                 <Icon active name='lock' size={23} style={{ color: '#269cda' }} />
                                 <Input
@@ -110,14 +91,14 @@ class Login extends Component {
                                     value={password}
                                     onChangeText={(password) => this.props.setPassword(password)}
                                     onBlur={() => this.props.validatePassword(password)} />
-                                {hidePassword
-                                    ? <Icon active name='eye' size={23} style={{ color: '#269cda' }} onPress={() => this.props.showPassword(!hidePassword)} />
-                                    : <Icon active name='eye-off' size={23} style={{ color: '#269cda' }} onPress={() => this.props.showPassword(!hidePassword)} />
+                                {errorPassword ?
+                                    utils.renderTooltip(errorEmail)
+                                    : hidePassword
+                                        ? <Icon active name='eye' size={23} style={{ color: '#269cda' }} onPress={() => this.props.showPassword(!hidePassword)} />
+                                        : <Icon active name='eye-off' size={23} style={{ color: '#269cda' }} onPress={() => this.props.showPassword(!hidePassword)} />
                                 }
                             </Item>
-                            <Text style={{ fontSize: 12, color: '#269cda' }}>{errorPassword}</Text>
                         </View>
-
                     </View>
 
                     {this._renderButton()}
@@ -127,24 +108,21 @@ class Login extends Component {
                         <Text style={{ color: '#DCDCDC', fontSize: 10 }}> ──────────────── OU  ────────────────</Text>
                     </View>
 
-                    <View style={{ paddingBottom: '5%', paddingLeft: '25%', paddingRight: '25%' }}>
+                    <View style={{ paddingBottom: '5%', paddingLeft: '5%', paddingRight: '5%' }}>
 
-                        <Button iconLeft block style={{ backgroundColor: '#5371b1'}}>
+                        <Button iconLeft block style={{ backgroundColor: '#5371b1' }}>
                             <Icon name='facebook' color='white' size={20} />
                             <Text uppercase={false} style={{ color: 'white' }}>Facebook</Text>
                         </Button>
                     </View>
 
+                    <TouchableWithoutFeedback style={{ paddingTop: '10%' }} onPress={() => Actions.Signup()}>
+                        <View style={{ alignItems: 'center', paddingBottom: '5%' }}>
 
-
-                    <View style={{ alignItems: 'center', paddingBottom: '5%' }}>
-                        <TouchableWithoutFeedback onPress={() => Actions.Signup()}>
-                            <Text style={{ fontSize: 12, color: '#555555' }}>Ainda não tem cadastro?<Text style={{ color: '#269cda', fontSize: 14, fontWeight: 'bold' }}> Cadastre-se </Text></Text>
-                        </TouchableWithoutFeedback>
-                    </View>
-
-                    {errorLogIn.length > 0 ? this._renderToast(errorLogIn) : null}
-
+                            <Text style={{ fontSize: 14, color: '#555555' }}>Ainda não tem cadastro?</Text>
+                            <Text style={{ color: '#269cda', fontSize: 14 }}> Cadastre-se </Text>
+                        </View>
+                    </TouchableWithoutFeedback>
 
                 </Content>
 
@@ -152,13 +130,18 @@ class Login extends Component {
         );
     }
 }
+const styles = StyleSheet.create({
+
+    input: {
+        color: '#269cda', fontSize: 12,
+    },
+});
 
 const mapStateToProps = state => ({
     email: state.AuthReducer.email,
     password: state.AuthReducer.password,
     errorEmail: state.AuthReducer.errorEmail,
     errorPassword: state.AuthReducer.errorPassword,
-    errorLogIn: state.AuthReducer.errorLogIn,
     tryLogin: state.AuthReducer.tryLogin,
     hidePassword: state.AuthReducer.hidePassword
 });

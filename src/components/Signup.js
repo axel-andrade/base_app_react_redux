@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { TextField } from 'react-native-material-textfield';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
+import utils from '../Utils';
 
 //actions
 import {
@@ -11,7 +12,14 @@ import {
     setEmail,
     setPassword,
     setRepeatPassword,
-    signUp
+    setPhone,
+    setBirthday,
+    signUp,
+    showPassword,
+    validateEmail,
+    validatePassword,
+    showRepeatPassword
+
 } from '../actions/AuthActions';
 
 
@@ -40,78 +48,135 @@ class Signup extends Component {
     };
 
     render() {
-        let { name, email, password, repeatPassword, errorSignUp } = this.props;
+        let { name, email, password, repeatPassword, phone, birthday, errorName, errorEmail, errorPassword, errorRepeatPassword, hidePassword, hideRepeatPassword } = this.props;
         return (
             <Container>
-                <Header style={{ backgroundColor: '#269cda' }}>
+                <Header style={{ backgroundColor: 'transparent', justifyContent: 'center' }}>
                     <Left>
                         <Button transparent onPress={() => Actions.Login()}>
-                            <Icon name="arrow-left" size={22.5} color='white' />
+                            <Icon name="arrow-left" size={22.5} color='#269cda' />
                         </Button>
                     </Left>
                     <Body>
-                        <Title style={{ color: 'white' }}>Cadastrar</Title>
+                        <Title style={{ color: '#269cda' }}>Cadastrar</Title>
                     </Body>
                     <Right>
                     </Right>
                 </Header>
                 <Content>
-                    <View style={{ padding: '5%', paddingBottom: '2%' }}>
-                        <TextField
-                            label="Nome"
-                            textColor='#555555'
-                            labelHeight={20}
-                            tintColor='#E07A2F'
-                            baseColor='#269cda'
-                            value={name}
-                            onChangeText={(name) => this.props.setName(name)}
-                        />
-                        <TextField
-                            label="Email"
-                            textColor='#555555'
-                            labelHeight={20}
-                            tintColor='#E07A2F'
-                            baseColor='#269cda'
-                            value={email}
-                            onChangeText={(email) => this.props.setEmail(email)}
-                        />
+                    <View style={{ paddingTop: '5%' }}>
+                        <View style={{ paddingLeft: '5%', paddingRight: '5%' }}>
+                            <Item style={{ borderColor: '#269cda' }}>
+                                <Input
+                                    placeholder='Nome'
+                                    autoCapitalize='sentences'
+                                    style={{ fontFamily: 'Exo Medium', color: '#555555' }}
+                                    placeholderTextColor='#269cda'
+                                    value={name}
+                                    onChangeText={(name) => this.props.setName(name)}
 
-                        <TextField
-                            secureTextEntry={true}
-                            label="Senha"
-                            textColor='#555555'
-                            labelHeight={20}
-                            tintColor='#E07A2F'
-                            baseColor='#269cda'
-                            value={password}
-                            onChangeText={(password) => this.props.setPassword(password)}
-                        />
+                                />
+                            </Item>
+                            <Text style={styles.error}>{errorName}</Text>
+                        </View>
+                        <View style={{ paddingLeft: '5%', paddingRight: '5%' }}>
+                            <Item style={{ borderColor: '#269cda' }}>
+                                <Input
+                                    placeholder='Email'
+                                    style={{ fontFamily: 'Exo Medium', color: '#555555' }}
+                                    placeholderTextColor='#269cda'
+                                    value={email}
+                                    onChangeText={(email) => this.props.setEmail(email)}
+                                    keyboardType='email-address'
+                                    onBlur={() => this.props.validateEmail(email)}
+                                />
+                            </Item>
+                            <Text style={{ color: '#ff0000', fontSize: 10 }}>{errorEmail}</Text>
+                        </View>
+                        <View style={{ paddingLeft: '5%', paddingRight: '5%' }}>
+                            <Item style={{ borderColor: '#269cda' }}>
+                                <Input
+                                    placeholder='Telefone'
+                                    keyboardType='numeric'
+                                    maxLength={15}
+                                    style={{ fontFamily: 'Exo Medium', color: '#555555' }}
+                                    placeholderTextColor='#269cda'
+                                    value={phone}
+                                    onChangeText={(phone) => this.props.setPhone(utils.formatPhone(phone))}
+                                />
 
-                        <TextField
-                            secureTextEntry={true}
-                            label="Repetir Senha"
-                            textColor='#555555'
-                            labelHeight={20}
-                            tintColor='#E07A2F'
-                            baseColor='#269cda'
-                            value={repeatPassword}
-                            onChangeText={(repeatPassword) => this.props.setRepeatPassword(repeatPassword)}
-                        />
+                            </Item>
+                            <Text></Text>
+                        </View>
+                        <View style={{ paddingLeft: '5%', paddingRight: '5%' }}>
+                            <Item style={{ borderColor: '#269cda' }}>
+                                <Input
+                                    placeholder='Data de nascimento'
+                                    keyboardType='numeric'
+                                    maxLength={10}
+                                    style={{ fontFamily: 'Exo Medium', color: '#555555' }}
+                                    placeholderTextColor='#269cda'
+                                    value={birthday}
+                                    onChangeText={(birthday) => this.props.setBirthday(utils.formatDate(birthday))}
+                                />
 
+                            </Item>
+                            <Text></Text>
+                        </View>
+                        <View style={{ paddingLeft: '5%', paddingRight: '5%' }}>
+                            <Item style={{ borderColor: '#269cda' }}>
+                                <Input
+                                    secureTextEntry={hidePassword}
+                                    placeholder='Senha'
+                                    style={{ fontFamily: 'Exo Medium', color: '#555555' }}
+                                    placeholderTextColor='#269cda'
+                                    value={password}
+                                    onChangeText={(password) => this.props.setPassword(password)}
+                                    onBlur={() => this.props.validatePassword(password)} />
+                                {hidePassword
+                                    ? <Icon active name='eye' size={23} style={{ color: '#269cda' }} onPress={() => this.props.showPassword(!hidePassword)} />
+                                    : <Icon active name='eye-off' size={23} style={{ color: '#269cda' }} onPress={() => this.props.showPassword(!hidePassword)} />
+                                }
+                            </Item>
+                            <Text style={styles.error}>{errorPassword}</Text>
+                        </View>
+                        <View style={{ paddingLeft: '5%', paddingRight: '5%' }}>
+                            <Item style={{ borderColor: '#269cda' }}>
+                                <Input
+                                    secureTextEntry={hideRepeatPassword}
+                                    placeholder='Repetir senha'
+                                    style={{ fontFamily: 'Exo Medium', color: '#555555' }}
+                                    placeholderTextColor='#269cda'
+                                    value={repeatPassword}
+                                    onChangeText={(repeatPassword) => this.props.setRepeatPassword(repeatPassword)}
+                                    onBlur={() => this.props.validatePassword(repeatPassword)} />
+                                {hideRepeatPassword
+                                    ? <Icon active name='eye' size={23} style={{ color: '#269cda' }} onPress={() => this.props.showRepeatPassword(!hideRepeatPassword)} />
+                                    : <Icon active name='eye-off' size={23} style={{ color: '#269cda' }} onPress={() => this.props.showRepeatPassword(!hideRepeatPassword)} />
+                                }
+                            </Item>
+                            <Text style={styles.error}>{errorRepeatPassword}</Text>
+                        </View>
                     </View>
 
-                    <View style={{paddingLeft: '5%' }}>
-                        <Text style={{ color: '#ff0000', fontSize: 10 }}>{errorSignUp}</Text>
+                    <View style={{ padding: '5%' }}>
+                        <Button block style={{ backgroundColor: '#269cda' }} onPress={() => this._signUp()}>
+                            <Text uppercase={false}>Cadastrar</Text>
+                        </Button>
                     </View>
+
+                    <TouchableWithoutFeedback style={{ paddingTop: '5%' }} onPress={() => Actions.reset("Login")}>
+                        <View style={{ alignItems: 'center', paddingBottom: '5%' }}>
+
+                            <Text style={{ fontSize: 14, color: '#555555' }}>Já tem conta?</Text>
+                            <Text style={{ color: '#269cda', fontSize: 14 }}> Entrar </Text>
+                        </View>
+                    </TouchableWithoutFeedback>
 
                 </Content>
 
 
-                <View style={{ padding: '5%' }}>
-                    <Button block style={{ backgroundColor: '#269cda' }} onPress={() => this._signUp()}>
-                        <Text>Cadastrar</Text>
-                    </Button>
-                </View>
+
 
             </Container>
         );
@@ -123,7 +188,36 @@ const mapStateToProps = state => ({
     email: state.AuthReducer.email,
     password: state.AuthReducer.password,
     repeatPassword: state.AuthReducer.repeatPassword,
-    errorSignUp: state.AuthReducer.errorSignUp
+    phone: state.AuthReducer.phone,
+    birthday: state.AuthReducer.birthday,
+    errorName: state.AuthReducer.errorName,
+    errorEmail: state.AuthReducer.errorEmail,
+    errorPassword: state.AuthReducer.errorPassword,
+    errorRepeatPassword: state.AuthReducer.errorRepeatPassword,
+    hidePassword: state.AuthReducer.hidePassword,
+    hideRepeatPassword: state.AuthReducer.hideRepeatPassword
+
 });
 
-export default connect(mapStateToProps, { setName, setEmail, setPassword, setRepeatPassword, signUp })(Signup);
+const styles = StyleSheet.create({
+    error: {
+        color: '#ff0000', fontSize: 10
+    },
+    errorView:{
+        alignItems: 'flex-end'
+    }
+});
+
+export default connect(mapStateToProps, {
+    setName,
+    setEmail,
+    setPassword,
+    setRepeatPassword,
+    setPhone,
+    setBirthday,
+    signUp,
+    showPassword,
+    validateEmail,
+    validatePassword,
+    showRepeatPassword
+})(Signup);
