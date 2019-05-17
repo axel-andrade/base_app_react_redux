@@ -79,11 +79,19 @@ class Login extends Component {
                         </View>
                     </View>
 
+                    <TouchableWithoutFeedback onPress={() => Actions.RecoverPassword()}>
+                        <View style={{ alignItems: 'flex-end', paddingRight: '5%' }}>
+                            <Text uppercase={false} style={{ color: '#555555', fontSize: 12 }}>Recuperar senha</Text>
+                        </View>
+                    </TouchableWithoutFeedback>
+
+
                     <View style={{ paddingTop: '10%', paddingLeft: '5%', paddingRight: '5%' }}>
                         <Button block style={{ backgroundColor: '#E07A2F' }} onPress={() => this._logIn()}>
                             <Text uppercase={false} style={{ color: 'white' }}>Entrar</Text>
                         </Button>
                     </View>
+
 
 
                     <View style={{ alignItems: 'center', padding: '3%' }}>

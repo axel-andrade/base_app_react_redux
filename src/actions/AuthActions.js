@@ -175,6 +175,53 @@ export const logIn = ({ email, password }) => {
 
 }
 
+export const recoverPassword = (email) => {
+
+
+    return dispatch => {
+
+        //verificando se os campos estão em branco e são válidos
+        if (email.length > 0 && utils.validateEmail(email)) {
+
+            //verificando conexão com a internet
+            NetInfo.isConnected.fetch().done((isConnected) => {
+                //se o dispositivo estiver conectado
+                if (isConnected) {
+
+                    api.post('/recoverPassword', {
+                        _ApplicationId: "Ascvd8fs91Scj4HjF7Sk93sCw2eDfggDE",
+                        email: email,
+                    }).then((res) => {
+                        // const user = res.data.result;
+                        // AsyncStorage.multiSet([
+                        //     ['@CoachZac:sessionToken', JSON.stringify(user.sessionToken)],
+                        //     ['@CoachZac:user', JSON.stringify(user)],
+                        //     ['@CoachZac:configPlayer', JSON.stringify({ hasChangePlayer: true })],
+                        //     ['@CoachZac:configAnalyze', JSON.stringify({ hasChangeAnalyze: true })]
+                        // ]);
+
+                        utils.renderToast(res.data.result);
+
+                    }).catch((e) => {
+                        utils.renderToast(e.response.data.error);
+                    }, 10000);
+
+                }
+                else
+                    utils.renderToast("Sem conexão com com internet");
+            });
+
+        }
+
+        else {
+            dispatch({ type: VALIDATE_EMAIL, payload: utils.errorEmail(email) });
+        }
+
+
+    }
+
+}
+
 export const validateEmail = (email) => {
     if (email.length <= 0)
         return { type: VALIDATE_EMAIL, payload: '' }

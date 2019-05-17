@@ -4,6 +4,8 @@ import { Router, Scene, Stack } from 'react-native-router-flux';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import Home from './components/Home';
+import RecoverPassword from './components/RecoverPassword'
+
 
 
 export default props => (
@@ -12,6 +14,8 @@ export default props => (
             <Scene key="Login" component={Login} title="Login" hideNavBar={true} initial />
             <Scene key="Signup" component={Signup} title="Signup" hideNavBar={true} />
             <Scene key="Home" component={Home} title="Home" hideNavBar={true} />
+            <Scene key="RecoverPassword" component={RecoverPassword} title="RecoverPassword" hideNavBar={true} />
+
 
         </Stack>
     </Router>
