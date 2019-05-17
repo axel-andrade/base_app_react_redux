@@ -22,9 +22,9 @@ import {
 
 const INITIAL_STATE = {
     name: '',
-    email: '',
-    password: '',
-    repeatPassword: '',
+    email: 'ajaxeljunio@gmail.com',
+    password: '123456',
+    repeatPassword: '123456',
     tryLogin: false,
     trySignup: false,
     errorEmail: '',

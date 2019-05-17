@@ -93,9 +93,11 @@ export const signUp = ({ name, email, password, repeatPassword }) => {
                         deviceInfo: utils.getDeviceInfo()
 
                     }).then((res) => {
+                        
                         dispatch({ type: SIGNUP_SUCCESS });
                         Actions.reset("Login");
                     }).catch((e) => {
+                        dispatch({ type: CLICK_SIGNUP, payload: false });
                         utils.renderToast(e.response.data.error);
                     });
                 }
@@ -147,10 +149,12 @@ export const logIn = ({ email, password }) => {
                         //     ['@CoachZac:configAnalyze', JSON.stringify({ hasChangeAnalyze: true })]
                         // ]);
 
-                        //dispatch({ type: LOGIN_SUCCESS });
+                        dispatch({ type: CLICK_LOGIN, payload: false });
                         Actions.reset("Home");
 
                     }).catch((e) => {
+
+                        dispatch({ type: CLICK_LOGIN, payload: false });
                         utils.renderToast(e.response.data.error);
                     }, 10000);
 

@@ -1,10 +1,12 @@
 import React from 'react';
+import { TouchableHighlight } from 'react-native';
 import Toast from 'react-native-root-toast';
 import DeviceInfo from 'react-native-device-info';
 import { Platform, ToastAndroid } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
-import { Tooltip } from 'react-native-elements';
-import { Text } from 'native-base';
+import Tooltip from 'react-native-walkthrough-tooltip';
+import { Text, Spinner } from 'native-base';
+import {Overlay} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
@@ -16,8 +18,15 @@ let utils = {
     },
     renderTooltip(message) {
         return (
-            <Tooltip withOverlay={false} popover={ <Text style={{fontSize: 12, color: 'white'}}>{message}</Text>}>
-               <Icon name='alert-circle-outline' color='#ff0000' size={20} />
+            <Tooltip
+                backgroundColor="transparent"
+                isVisible={true}
+                content={<Text>{message}</Text>}
+                placement="top"
+            >
+                <TouchableHighlight>
+                    <   Icon name='alert-circle' color='#ff0000' size={20} />
+                </TouchableHighlight>
             </Tooltip>
         );
     },
@@ -134,6 +143,18 @@ let utils = {
         else
             return '';
 
+    },
+    returnLoading(show){
+        return(
+            <Overlay
+                        isVisible={show}
+                        overlayBackgroundColor="rgba(255, 255, 255, .5)"
+                        fullScreen={true}
+                        overlayStyle={{alignItems:'center', justifyContent:'center'}}
+                    >
+                        <Spinner size='large' color='#C9F60A' />
+                    </Overlay>
+        );
     }
 }
 

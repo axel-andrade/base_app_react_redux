@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, TouchableWithoutFeedback} from 'react-native';
+import { View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { TextField } from 'react-native-material-textfield';
+import { Overlay } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import utils from '../Utils';
@@ -48,7 +49,7 @@ class Signup extends Component {
     };
 
     render() {
-        let { name, email, password, repeatPassword, phone, birthday, errorName, errorEmail, errorPassword, errorRepeatPassword, hidePassword, hideRepeatPassword } = this.props;
+        let { name, email, password, repeatPassword, phone, birthday, errorName, errorEmail, errorPassword, errorRepeatPassword, hidePassword, hideRepeatPassword, trySignup } = this.props;
         return (
             <Container>
                 <Header style={{ backgroundColor: 'transparent', justifyContent: 'center' }}>
@@ -91,7 +92,7 @@ class Signup extends Component {
                                     onBlur={() => this.props.validateEmail(email)}
                                 />
                             </Item>
-                            <Text style={{ color: '#ff0000', fontSize: 10 }}>{errorEmail}</Text>
+                            <Text style={styles.error}>{errorEmail}</Text>
                         </View>
                         <View style={{ paddingLeft: '5%', paddingRight: '5%' }}>
                             <Item style={{ borderColor: '#269cda' }}>
@@ -160,7 +161,7 @@ class Signup extends Component {
                     </View>
 
                     <View style={{ padding: '5%' }}>
-                        <Button block style={{ backgroundColor: '#269cda' }} onPress={() => this._signUp()}>
+                        <Button block style={{ backgroundColor: '#E07A2F' }} onPress={() => this._signUp()}>
                             <Text uppercase={false}>Cadastrar</Text>
                         </Button>
                     </View>
@@ -175,6 +176,7 @@ class Signup extends Component {
 
                 </Content>
 
+                {utils.returnLoading(this.props.trySignup)}
 
 
 
@@ -195,15 +197,16 @@ const mapStateToProps = state => ({
     errorPassword: state.AuthReducer.errorPassword,
     errorRepeatPassword: state.AuthReducer.errorRepeatPassword,
     hidePassword: state.AuthReducer.hidePassword,
-    hideRepeatPassword: state.AuthReducer.hideRepeatPassword
+    hideRepeatPassword: state.AuthReducer.hideRepeatPassword,
+    trySignup: state.AuthReducer.trySignup
 
 });
 
 const styles = StyleSheet.create({
     error: {
-        color: '#ff0000', fontSize: 10
+        color: '#E07A2F', fontSize: 10
     },
-    errorView:{
+    errorView: {
         alignItems: 'flex-end'
     }
 });

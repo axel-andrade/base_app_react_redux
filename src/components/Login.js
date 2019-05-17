@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, TouchableWithoutFeedback, ToastAndroid, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, TouchableWithoutFeedback, ToastAndroid, StyleSheet, TouchableHighlight } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Actions } from 'react-native-router-flux';
-import { Tooltip } from 'react-native-elements';
+import { Overlay } from 'react-native-elements';
 import utils from '../Utils';
 //acesso aos reducers 
 import { connect } from 'react-redux';
@@ -34,28 +34,6 @@ class Login extends Component {
         this.props.logIn({ email, password });
     };
 
-    _renderButton() {
-
-        if (this.props.tryLogin)
-            return (
-                <View style={{ paddingTop: '10%', paddingLeft: '5%', paddingRight: '5%' }}>
-                    <Button block style={{ backgroundColor: '#E07A2F' }}>
-                        <Spinner size='small' color='white' />
-                    </Button>
-                </View>
-
-            );
-        else
-            return (
-                <View style={{ paddingTop: '10%', paddingLeft: '5%', paddingRight: '5%' }}>
-                    <Button block style={{ backgroundColor: '#E07A2F' }} onPress={() => this._logIn()}>
-                        <Text uppercase={false} style={{ color: 'white' }}>Entrar</Text>
-                    </Button>
-                </View>
-
-            )
-    };
-
     render() {
         console.log(this.props);
         console.log("connection", utils.verifyConnection());
@@ -77,8 +55,8 @@ class Login extends Component {
                                     keyboardType='email-address'
                                     onBlur={() => this.props.validateEmail(email)}
                                 />
-                                {errorEmail ? utils.renderTooltip(errorEmail) : null}
                             </Item>
+                            <Text style={{ color: '#E07A2F', fontSize: 10 }}>{errorEmail}</Text>
                         </View>
                         <View style={{ paddingLeft: '5%', paddingRight: '5%' }}>
                             <Item style={{ borderColor: '#269cda', paddingTop: 5 }}>
@@ -91,17 +69,21 @@ class Login extends Component {
                                     value={password}
                                     onChangeText={(password) => this.props.setPassword(password)}
                                     onBlur={() => this.props.validatePassword(password)} />
-                                {errorPassword ?
-                                    utils.renderTooltip(errorEmail)
-                                    : hidePassword
-                                        ? <Icon active name='eye' size={23} style={{ color: '#269cda' }} onPress={() => this.props.showPassword(!hidePassword)} />
-                                        : <Icon active name='eye-off' size={23} style={{ color: '#269cda' }} onPress={() => this.props.showPassword(!hidePassword)} />
+                                {hidePassword
+                                    ? <Icon active name='eye' size={23} style={{ color: '#269cda' }} onPress={() => this.props.showPassword(!hidePassword)} />
+                                    : <Icon active name='eye-off' size={23} style={{ color: '#269cda' }} onPress={() => this.props.showPassword(!hidePassword)} />
                                 }
                             </Item>
+                            <Text style={{ color: '#E07A2F', fontSize: 10 }}>{errorPassword}</Text>
+
                         </View>
                     </View>
 
-                    {this._renderButton()}
+                    <View style={{ paddingTop: '10%', paddingLeft: '5%', paddingRight: '5%' }}>
+                        <Button block style={{ backgroundColor: '#E07A2F' }} onPress={() => this._logIn()}>
+                            <Text uppercase={false} style={{ color: 'white' }}>Entrar</Text>
+                        </Button>
+                    </View>
 
 
                     <View style={{ alignItems: 'center', padding: '3%' }}>
@@ -123,6 +105,9 @@ class Login extends Component {
                             <Text style={{ color: '#269cda', fontSize: 14 }}> Cadastre-se </Text>
                         </View>
                     </TouchableWithoutFeedback>
+
+
+                    {utils.returnLoading(this.props.tryLogin)}
 
                 </Content>
 
