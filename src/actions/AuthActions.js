@@ -101,8 +101,10 @@ export const signUp = ({ name, email, password, repeatPassword }) => {
                         utils.renderToast(e.response.data.error);
                     });
                 }
-                else
+                else{
+                    dispatch({ type: CLICK_SIGNUP, payload: false });
                     utils.renderToast("Sem conexão com com internet");
+                }
             });
 
         }
@@ -159,8 +161,10 @@ export const logIn = ({ email, password }) => {
                     }, 10000);
 
                 }
-                else
+                else{
+                    dispatch({ type: CLICK_LOGIN, payload: false });
                     utils.renderToast("Sem conexão com com internet");
+                }
             });
 
         }
